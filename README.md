@@ -13,5 +13,15 @@ Pieni HTML, Flask ja SQLite -pohjainen pelillistetty taulukoiden luomis- ja vert
 
 
 # Miten tätä käytetään
-Synkkaa juurifolderista, siitä joka sisältää pyproject.toml "uv sync" tai asentamalla riippuvuudet muulla tavalla jonka olet valinnut käyttää
-Rakenna tietokanta ajamalla "src/create_database.py"
+1. Asenna reposition riippuvuudet ja luo virtuaaliympäristö juurihakemistosta käsin
+- Kehityksessä on käytetty uv-kehityksenhallintajärjestelmää jolla riittää komento "uv sync"
+- TODO: pip ohjeet ja virtuaaliympäristön luominen muilla tavoilla
+2. SIIRRY hakemistoon "src" ja tarkista että virtuaaliympäristö on aktivoitu ja että projektinkehityksessä käytetty Python-versio on käytössä
+- "flask --version" --> Kuuluu kertoa oma versionsa ja riippuvaisuuksiensa versiot
+- "python --version" --> Kuuluu palauttaa 3.14
+3. Aja pythonilla create_database.py
+4. Käynnistä serveri komennolla "flask run"
+5. Navigoi osoitteeseen "[http://127.0.0.1:5000]" haluamallasi selaimella
+6. Luo tunnus tai kirjaudu sisään sivuston ohjeiden mukaan
+
+7. TODO: Selitys apin seisäisetstä toiminnasta 
