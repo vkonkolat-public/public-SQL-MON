@@ -10,3 +10,8 @@ Pieni HTML, Flask ja SQLite -pohjainen pelillistetty taulukoiden luomis- ja vert
 -    Sovelluksessa on käyttäjäsivut, jotka näyttävät jokaisesta käyttäjästä tilastoja ja käyttäjän omistamat SQLmonit.
 -    Käyttäjän on mahdollista valita SQLmoneilleen erilaisia luokitteluja, kuten lepo, treenaaminen ja haastevalmius
 -    Käyttäjät voivat luoda toisen käyttäjän SQLmonille haasteen omalla SQLmonillaan, kahden SQLmonin väliset kamppailut ovat toissijaisia tietokohteita
+
+
+# Miten tätä käytetään
+Synkkaa juurifolderista, siitä joka sisältää pyproject.toml "uv sync" tai asentamalla riippuvuudet muulla tavalla jonka olet valinnut käyttää
+Rakenna tietokanta ajamalla "src/create_database.py"

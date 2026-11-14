@@ -1,0 +1,37 @@
+html, body {
+  background: #000000;
+  color: gold;
+  margin: auto;
+  place-items: center;
+  padding: 20px; /* 20 näin aluksi */
+  font-family: 'Impact', sans-serif;
+  line-height: 2.0;
+  text-align: center;
+}
+/* Full disclosure: Tämä CSS on kehitetty yhdessä toisen ihmisen kanssa */
+
+body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  color: gold;
+}
+
+a {
+  color: white;
+}
+
+footer {
+  padding: 30px;
+  font-size: 16pt;
+  position: static;
+  /* left: 0;
+  bottom: 0; */
+  width: 100%;
+  color: red;
+  text-align: center;
+}

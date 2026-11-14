@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lander</title>
+  <link rel="stylesheet" href="/static/welcome.css">
+</head>
+<!-- 
+Teksti keskelle, pääkallot, liekit yms. perinteinen molemmille sivuille. Tanssiva luuranko?
+Lisäksi nykyään ei ole enää kovin usein etusivua vaan niin sanottu "lander" eli sivu, joka kertoo mistä on kyse ja ohjaa käyttäjän eteenpäin.
+TODO: Muista tarkistaan mikä on etusivun ja landerin ero vai onko kyseessä pöhinä.
+Mahdollisesti Lander antaa linkin tärkeään ja Etusivu on fiinimpi ja robustimpi + sisältää kaikkea pelottavaa.
+-->
+<body>
+  <main>
+    <img
+      src="/static/flaming_text.gif"
+      alt="SQL MON liekehtivillä kirjaimilla"
+    />
+    <h1>Tervetuloa SQL-MONIN ihmeelliseen maailmaan!!</h1>
+    <p><a href="/registration">Jos olet uusi käyttäjä, voit luoda tunnuksen tästä.</a></p>
+    <p>Kirjaudu sisään.... jos uskallat. (Mallikäyttäjä on "Mikko" salasanalla "4") </p>
+    <form action="/login" method="post">
+      <p>
+      Tunnus: <br />
+      <input type="text" name="username" />
+      </p>
+      <p>
+      Salasana: <br />
+      <input type="password" name="password" />
+      </p>
+      <p><input type="submit" value="Kirjaudu" />
+    </form>
+  </main>
+
+  <footer>
+    <p>Tällä sivulla on vierailtu {{ visit_count }} kertaa.</p>
+    <p>&copy; 2026 SQL-MON. Kaikki oikeudet vapautetaan.</p>
+  </footer>
+</body>
+
+</html>

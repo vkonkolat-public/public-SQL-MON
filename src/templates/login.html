@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Kirjautuminen</title>
+  <link rel="stylesheet" href="/static/welcome.css">
+</head>
+
+<body>
+  <p>Valitsit pizzan {{ pizza }}</p>
+  <p>
+    Seuraavat lisät:
+    <ul>
+      {% for extra in extras %}
+      <li>{{ extra }}</li>
+      {% endfor %}
+    </ul>
+  </p>
+  <p>
+    Erikoistoiveet: <br />
+    {{ message }}
+  </p>
+</body>
+
+</html>
