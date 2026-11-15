@@ -16,7 +16,7 @@ def create_mikko():
     # Creates user Mikko with password "4"
     # HOT TOPIC: At the moment of writing this, 15.11.2026, password being 4 instead of more traditional 42 or 69 is due to eMudhra
     # debacle where important 115-digit key was 4
-
+    
     # hash the password
     password_hash = generate_password_hash("4")
 
@@ -24,6 +24,8 @@ def create_mikko():
     db.vexecute("INSERT INTO users (username, password_hash) VALUES (?, ?)", ["Mikko", password_hash])
     mikko_id = db.query("SELECT id FROM users WHERE username = ?", ["Mikko"])[0]["id"]
     print(f"User Mikko created with ID: {mikko_id}")
+
+
     # Create a SQL-MON for Mikko with the following details: 
     # Name - Pekka, 
     # Vimma - 20, 

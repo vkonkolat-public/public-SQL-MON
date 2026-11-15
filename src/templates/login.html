@@ -1,3 +1,4 @@
+<!-- This won't be used until the fnords are pined-->
 <!DOCTYPE html>
 <html>
 
@@ -7,19 +8,16 @@
 </head>
 
 <body>
-  <p>Valitsit pizzan {{ pizza }}</p>
-  <p>
-    Seuraavat lisät:
-    <ul>
-      {% for extra in extras %}
-      <li>{{ extra }}</li>
-      {% endfor %}
-    </ul>
-  </p>
-  <p>
-    Erikoistoiveet: <br />
-    {{ message }}
-  </p>
+  <main>
+    <h1>Kirjautuminen</h1>
+    <form method="POST" action="/login">
+      <label for="username">Käyttäjätunnus:</label>
+      <input type="text" id="username" name="username" required>
+      <label for="password">Salasana:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Kirjaudu</button>
+    </form>
+  </main>
 </body>
 
 </html>

@@ -9,8 +9,40 @@
 <body>
   <main>
     <h1>Etusivu</h1>
-    <p> Tähän tulee lista SQL-MONeistasi ja niiden ominaisuuksista. Lisäksi linkki luoda uusi SQL-MON. </p>
-    <p> Tähän tulee myös linkki kirjautua ulos. Oikeastaan headeriin oikealle perinteiseen tyyliin. Tai palkkiin vasemmalle. </p>
+    <!-- Laita nämä myöhemmin siististi johonkin ruudukkotauluihin lukumäärän mukaan, 3 maksimi? -->
+    <h2>Omat SQL-MONit</h2>
+    {% if mons %}
+      {% for mon in mons %}
+        <div class="mon">
+          <h3>{{ mon["mon_name"] }}</h3>
+          <ul>
+            <li>
+              Vimma: {{ mon["vimma"] }}
+              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='vimma') }}" method="post" style="display: inline">
+                <button type="submit">+</button>
+              </form>
+            </li>
+            <li>
+              Sisu: {{ mon["sisu"] }}
+              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='sisu') }}" method="post" style="display: inline">
+                <button type="submit">+</button>
+              </form>
+            </li>
+            <li>
+              Kesto: {{ mon["kesto"] }}
+              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='kesto') }}" method="post" style="display: inline">
+                <button type="submit">+</button>
+              </form>
+            </li>
+          </ul>
+        </div>
+      {% endfor %}
+    {% else %}
+      <p>Sinulla ei ole vielä SQL-MONeja.</p>
+    {% endif %}
+
+    <p> <a href="/SQLMON_creation">Luo uusi SQL-MON</a> </p>
+    <p> <a href="/logout">Kirjaudu ulos</a> </p>
   </main>
 
 

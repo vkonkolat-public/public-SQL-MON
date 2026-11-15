@@ -1,9 +1,11 @@
 import sqlite3
 from flask import Flask
-from flask import redirect, render_template, request, url_for, session
-import db
+from flask import abort, redirect, render_template, request, url_for, session
 from werkzeug.security import generate_password_hash, check_password_hash # No need to get fancy with thsese
 import config
+
+import db
+import sqlcenter
 
 app = Flask(__name__)
 app.secret_key = config.secret_key
@@ -33,16 +35,31 @@ def index():
 
     return render_template("lander.html", visit_count=count)
 
+@app.route("/404")
+def not_found():
+    return render_template("404.html"), 404
+
+@app.errorhandler(404)
+def handle_not_found(error):
+    return redirect(url_for("not_found"))
+
 @app.route("/login", methods=["POST"])
 def login():
     username = request.form["username"]
     password = request.form["password"]
     
+    # Fetch the password hash for the given username and handle errors if the user does not exist
     sql = "SELECT password_hash FROM users WHERE username = ?"
-    password_hash = db.query(sql, [username])[0][0]
+    try:
+        password_hash = db.query(sql, [username])[0][0]
+    except (IndexError, TypeError) as e:
+        print(f"Error fetching password hash: {e}")
+        return "VIRHE: käyttäjää ei löydy"
 
+    # Check if the provided password matches the stored hash an boot them off if it doesn't
     if check_password_hash(password_hash, password):
         session["username"] = username
+        session["user_id"] = db.query("SELECT id FROM users WHERE username = ?", [username])[0][0]
         return redirect("/frontpage")
     else:
         return "VIRHE: väärä tunnus tai salasana"
@@ -77,7 +94,38 @@ def create_user():
 def frontpage():
     if "username" not in session:
         return redirect("/")
-    return render_template("frontpage.html")
+    sqlcenter_instance = sqlcenter.SQLCenter()
+    users_mons = sqlcenter_instance.get_all_mons_for_user(session["user_id"])
+    return render_template("frontpage.html", mons=users_mons)
+
+#TODO: This is a not fully understood method for a single page, make usable in a larger scope later
+#TODO: Add a more descriptive way to fail than abort(404)
+@app.post("/mons/<int:mon_id>/increase/<stat>")
+def increase_mon_stat(mon_id, stat):
+    if "user_id" not in session:
+        return redirect("/")
+
+    stat_columns = {
+        "vimma": "vimma",
+        "sisu": "sisu",
+        "kesto": "kesto",
+    }
+    column = stat_columns.get(stat)
+    if column is None:
+        abort(404)
+
+    mon = db.query(
+        "SELECT id FROM mons WHERE id = ? AND user_id = ?",
+        [mon_id, session["user_id"]],
+    )
+    if not mon:
+        abort(404)
+
+    db.execute(
+        f"UPDATE mons SET {column} = COALESCE({column}, 0) + 1 WHERE id = ? AND user_id = ?",
+        [mon_id, session["user_id"]],
+    )
+    return redirect(url_for("frontpage"))
 
 #Simple redirect back to the lander page
 # How does this handle multiple sessions?
@@ -85,3 +133,23 @@ def frontpage():
 def logout():
     del session["username"]
     return redirect("/")
+
+@app.route("/SQLMON_creation")
+def SQLMON_creation():
+    if "username" not in session:
+        return redirect("/")
+    return render_template("SQLMON_creation.html")
+
+@app.route("/create_mon", methods=["POST"])
+def create_mon():
+    if "username" not in session:
+        return redirect("/")
+    sqlcenter_instance = sqlcenter.SQLCenter()
+    sqlcenter_instance.create_mon_for_user(
+        session["user_id"],
+        request.form["mon_name"],
+        int(request.form["vimma"]),
+        int(request.form["sisu"]),
+        int(request.form["kesto"])
+    )
+    return redirect("/frontpage")

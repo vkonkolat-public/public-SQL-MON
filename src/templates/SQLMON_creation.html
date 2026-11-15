@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Luo uusi SQL-MON</title>
+    <link rel="stylesheet" href="/static/welcome.css">
+</head>
+
+<body>
+  <main>
+    <h1>Luo uusi SQL-MON</h1>
+    <form action="/create_mon" method="post">
+        <p> Annetaan huomisen minän muistella miten nämä sanitisoitiin ja vaadittiin numeroarvoja jne.</p><br>
+        <p> Nimi tekstinä ja muut kentät numeroina pliis.</p>
+        <label for="mon_name">Nimi:</label>
+        <input type="text" id="mon_name" name="mon_name" required><br><br>
+    
+        <label for="vimma">Vimma:</label>
+        <input type="number" id="vimma" name="vimma" min="0" required><br><br>
+    
+        <label for="sisu">Sisu:</label>
+        <input type="number" id="sisu" name="sisu" min="0" required><br><br>
+    
+        <label for="kesto">Kesto:</label>
+        <input type="number" id="kesto" name="kesto" min="0" required><br><br>
+    
+        <button type="submit">Luo SQL-MON</button>
+    </form>
+    <p><a href="/frontpage">Palaa käyttäjäsivullesi</a></p>
+  </main>
+</body>
+
+</html>
