@@ -23,6 +23,8 @@ def vexecute(sql, params=[]):
     con.commit()
     con.close()
 
+# So basically, inside the application you can use this to get the id of last inserted row, but called outside of it causes a crash similar
+# to execute using g. Should be useful in actual use.
 def last_insert_id():
     return g.last_insert_id    
     
