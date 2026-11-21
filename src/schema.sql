@@ -15,7 +15,7 @@ CREATE TABLE mons (
     vimma INTEGER,
     sisu INTEGER,
     kesto INTEGER,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 --user_id references owners of the mons, not the mons themselves
@@ -28,7 +28,7 @@ CREATE TABLE past_combatants (
     vimma INTEGER,  
     sisu INTEGER,
     kesto INTEGER,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users ON DELETE CASCADE
 );
 
 --SQL-MONs in past might have different stats
@@ -38,11 +38,11 @@ CREATE TABLE past_combatants (
 --regarding a car on sale with or invidual messages on a message board, or a log of a person's actions in an auction app
 CREATE TABLE fights (
     id INTEGER PRIMARY KEY,
-    mon1_owner_id INTEGER REFERENCES users,
-    mon2_owner_id INTEGER REFERENCES users,
-    mon1_id INTEGER REFERENCES past_combatants,
-    mon2_id INTEGER REFERENCES past_combatants,
-    winner_id INTEGER REFERENCES past_combatants,
+    mon1_owner_id INTEGER REFERENCES users ON DELETE CASCADE,
+    mon2_owner_id INTEGER REFERENCES users ON DELETE CASCADE,
+    mon1_id INTEGER REFERENCES past_combatants ON DELETE CASCADE,
+    mon2_id INTEGER REFERENCES past_combatants ON DELETE CASCADE,
+    winner_id INTEGER REFERENCES past_combatants ON DELETE CASCADE,
     fight_date INTEGER DEFAULT CURRENT_TIMESTAMP
 );
 

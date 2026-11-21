@@ -1,7 +1,8 @@
 import db
 from werkzeug.security import generate_password_hash, check_password_hash
 
-
+# This script provides an alternative way to populate the database, python makes is way easier to run checks and insert massive
+# amounts of randomised test data
 def create_mikko():
     # Check if the user Mikko already exists
     result = db.query("SELECT * FROM users WHERE username = ?", ["Mikko"])

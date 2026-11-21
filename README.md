@@ -16,10 +16,14 @@ Pieni HTML, Flask ja SQLite -pohjainen pelillistetty taulukoiden luomis- ja vert
 1. Asenna reposition riippuvuudet ja luo virtuaaliympäristö juurihakemistosta käsin
 - Kehityksessä on käytetty uv-kehityksenhallintajärjestelmää jolla riittää komento "uv sync"
 - TODO: pip ohjeet ja virtuaaliympäristön luominen muilla tavoilla
+
 2. SIIRRY hakemistoon "src" ja tarkista että virtuaaliympäristö on aktivoitu ja että projektinkehityksessä käytetty Python-versio on käytössä
 - "flask --version" --> Kuuluu kertoa oma versionsa ja riippuvaisuuksiensa versiot
 - "python --version" --> Kuuluu palauttaa 3.14
+
 3. Aja pythonilla create_database.py
+3. 1. Tai [database.db < schema.sql]
+3. 2. Tai [cmd /c "sqlite3 database.db < schema.sql"]
 4. Käynnistä serveri komennolla "flask run"
 5. Navigoi osoitteeseen "[http://127.0.0.1:5000]" haluamallasi selaimella
 6. Luo tunnus tai kirjaudu sisään sivuston ohjeiden mukaan
