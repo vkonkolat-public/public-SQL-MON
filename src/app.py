@@ -48,10 +48,12 @@ def login():
     username = request.form["username"]
     password = request.form["password"]
     
+    # TODO: Roudaa kaikki SQL omaan moduuliinsa
     # Fetch the password hash for the given username and handle errors if the user does not exist
-    sql = "SELECT password_hash FROM users WHERE username = ?"
+    sql = "SELECT id, password_hash FROM users WHERE username = ?"
     try:
-        password_hash = db.query(sql, [username])[0][0]
+        # Fetches a tuple containing the user_id and password_hash, if the user exists
+        user_id, password_hash = db.query(sql, [username])[0]
     except (IndexError, TypeError) as e:
         print(f"Error fetching password hash: {e}")
         return "VIRHE: käyttäjää ei löydy"
@@ -59,7 +61,7 @@ def login():
     # Check if the provided password matches the stored hash an boot them off if it doesn't
     if check_password_hash(password_hash, password):
         session["username"] = username
-        session["user_id"] = db.query("SELECT id FROM users WHERE username = ?", [username])[0][0]
+        session["user_id"] = user_id
         return redirect("/frontpage")
     else:
         return "VIRHE: väärä tunnus tai salasana"
