@@ -12,20 +12,81 @@ Pieni HTML, Flask ja SQLite -pohjainen pelillistetty taulukoiden luomis- ja vert
 -    Käyttäjät voivat luoda toisen käyttäjän SQLmonille haasteen omalla SQLmonillaan, kahden SQLmonin väliset kamppailut ovat toissijaisia tietokohteita
 
 
-# Miten tätä käytetään
-1. Asenna reposition riippuvuudet ja luo virtuaaliympäristö juurihakemistosta käsin
-- Kehityksessä on käytetty uv-kehityksenhallintajärjestelmää jolla riittää komento "uv sync"
-- TODO: pip ohjeet ja virtuaaliympäristön luominen muilla tavoilla
+# Miten tätä saadaan käyttökuntoon
+1. Asenna virtuaaliympäristö ja riippuvaisuudet juurijakemistosta. Saatat joutua kirjoittamaan **python3** pelkän **python** sijasta
 
-2. SIIRRY hakemistoon "src" ja tarkista että virtuaaliympäristö on aktivoitu ja että projektinkehityksessä käytetty Python-versio on käytössä
-- "flask --version" --> Kuuluu kertoa oma versionsa ja riippuvaisuuksiensa versiot
-- "python --version" --> Kuuluu palauttaa 3.14
+Linux/macOS:
+```bash
+python -m venv venv
+# Odota että kansio on luotu
+source venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install flask
+python --version
+flask --version
+```
 
-3. Aja pythonilla create_database.py
-3. 1. Tai [database.db < schema.sql]
-3. 2. Tai [cmd /c "sqlite3 database.db < schema.sql"]
-4. Käynnistä serveri komennolla "flask run"
-5. Navigoi osoitteeseen "[http://127.0.0.1:5000]" haluamallasi selaimella
-6. Luo tunnus tai kirjaudu sisään sivuston ohjeiden mukaan
+Windows (PowerShell):
+```powershell
+python -m venv venv
+# Odota että kansio on luotu
+.\venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install flask
+python --version
+flask --version
+```
 
-7. TODO: Selitys apin seisäisetstä toiminnasta 
+Windows (Command Prompt):
+```bat
+python -m venv venv
+venv\Scripts\activate.bat
+python -m pip install --upgrade pip
+python -m pip install flask
+python --version
+flask --version
+```
+
+2. Jos käytät uv:tä, projektiriippuvuudet ja virtuaaliympäristö voidaan asentaa komennolla **`uv sync`**.
+3. SIIRRY hakemistoon **"src"**. "src" toimii tässä toteutuksessa sovelluksen juurihakemistona siinä missä itse juurihakemisto on koko projektin juurihakemisto. Kaikki mitä ajat tämän jälkeen terminaalissa on tarkoitus ajaa kansion **src** sisällä
+
+4. Luo tietokanta ajamalla pythonilla 
+
+``` 
+python create_database.py
+```
+
+Tai  suoraan sqlitellä:
+
+```
+sqlite3 database.db < schema.sql
+```
+
+5. Täytä tietokanta ajamalla pythonilla
+``` 
+python populate_database.py
+```
+
+Tai  suoraan sqlitellä:
+
+```
+sqlite3 database.db < populate.sql
+```
+
+6. Jos jokin menee pieleen (kuten vaikka luot tietokannan vahingossa juurihakemistoon etkä **src** kansioon josta mainittiin pari kohtaa aikaisemmin) tietokannan voi poistaa manuaalisesti tai alustaa uudestaan ajamalla
+```
+python wipe_database.py
+```
+
+# Miten tätä käytetään/testataan
+1. Käynnistä serveri komennolla "flask run"
+2. Navigoi osoitteeseen "[http://127.0.0.1:5000]" haluamallasi selaimella
+3. Luo tunnus tai kirjaudu sisään sivuston ohjeiden mukaan
+    - Tunne itsesi vapaaksi testaamaan vääriä salasanoja, virheellistä tunnuksenluontia tai perusluontoisia SQL-injektioita ja kerro palautteessasi tuloksista
+
+4. Mallitunnuksen nimi on *Mikko* ja salasana *4*
+5. Käyttäjän etusivulla pystyy tarkastelemaan olemassaolevia SQL-MONeja (tietokohteet) ja treenaamaan niitä (tietokohteiden muuttaminen)
+6. Etusivulla on myös linkki uuden SQL-MONin luomiseen (tietokohteen lisääminen)
+    - Nimen tulisi olla merkkijono ja arvojen positiivisia kokonaislukuja.
+    - Koeta syöttää kykykenttiin jotain ei-numeerista
+    - Koeta lähettää sivulle POST-request johon olet livauttanut merkkijonon pyydettyyn arvoon jonka pitäisi olla numeerinen. Ilmestyykö SQL-MON etusivullesi? Kaatuuko ohjel,a?
