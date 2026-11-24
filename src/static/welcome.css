@@ -35,3 +35,20 @@ footer {
   color: red;
   text-align: center;
 }
+
+/* New additions */
+
+.frontpage {
+  width: 100%;
+}
+
+.mon-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.mon {
+  border: 1px solid gold;
+  padding: 0 1rem;
+}

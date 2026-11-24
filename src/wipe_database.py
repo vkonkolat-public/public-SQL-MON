@@ -1,15 +1,11 @@
-import db
+from sqlcenter import SQLCenter
 
 # This file is used to wipe the database clean. It will just freaking delete everything. Use with care.
 # Due to it's unnatural firepower it is not included anywhere yet.
+# Migrated to use SQLcenter 2026-11-24, ketp to retain old run functionality
 
 def wipe_database():
-    # Delete child rows before parent rows because foreign keys are enabled.
-    db.vexecute("DELETE FROM fights")
-    db.vexecute("DELETE FROM past_combatants")
-    db.vexecute("DELETE FROM mons")
-    db.vexecute("DELETE FROM users")
-    db.vexecute("DELETE FROM visit_counter")
+    SQLCenter().wipe_database()
 
 
 if __name__ == "__main__":

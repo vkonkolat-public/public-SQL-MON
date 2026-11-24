@@ -1,15 +1,16 @@
-import db
-from werkzeug.security import generate_password_hash, check_password_hash
+from werkzeug.security import generate_password_hash
+import sqlcenter
 
 # This script provides an alternative way to populate the database, python makes is way easier to run checks and insert massive
 # amounts of randomised test data
 def create_mikko():
+    center = sqlcenter.SQLCenter()
     # Check if the user Mikko already exists
-    result = db.query("SELECT * FROM users WHERE username = ?", ["Mikko"])
+    result = center.get_user_by_username("Mikko")
     if result:
         print("Database already populated (at this point with only Mikko)")
-        mikko_id = db.query("SELECT id FROM users WHERE username = ?", ["Mikko"])[0]["id"]
-        result = db.query("SELECT * FROM mons WHERE mon_name = ? AND user_id = ?", ["Pekka", mikko_id])
+        mikko_id = result[0]["id"]
+        result = center.get_mon_by_name_and_user("Pekka", mikko_id)
         if not result:
             print("Somehow, somehow Mikko exists but his SQL-MON Pekka doesn't. I thought future me would like to know this, t. past you")
         return
@@ -22,25 +23,36 @@ def create_mikko():
     password_hash = generate_password_hash("4")
 
     # Create the user in the database
-    db.vexecute("INSERT INTO users (username, password_hash) VALUES (?, ?)", ["Mikko", password_hash])
-    mikko_id = db.query("SELECT id FROM users WHERE username = ?", ["Mikko"])[0]["id"]
+    center.create_user("Mikko", password_hash)
+    mikko_id = center.get_user_by_username("Mikko")[0]["id"]
     print(f"User Mikko created with ID: {mikko_id}")
-
 
     # Create a SQL-MON for Mikko with the following details: 
     # Name - Pekka, 
     # Vimma - 20, 
     # Sisu - 15, 
     # Kesto - 100
-    db.vexecute("INSERT INTO mons (mon_name, vimma, sisu, kesto, user_id) VALUES (?, ?, ?, ?, ?)", ["Pekka", 20, 15, 100, mikko_id])
+    center.create_mon_for_user(mikko_id, "Pekka", 20, 15, 100)
 
     # Check if the SQL-MON was created successfully and belongs to Mikko
-    result = db.query("SELECT * FROM mons WHERE mon_name = ? AND user_id = ?", ["Pekka", mikko_id])
+    result = center.get_mon_by_name_and_user("Pekka", mikko_id)
 
     if result:
         print("Database populated successfully with user Mikko and SQL-MON Pekka.")
     else:
         print("Något gick fel.")
+
+# Untested, unchecked, look through before integrating to anything
+# def create_random_users(num_users):
+#     center = sqlcenter.SQLCenter()
+#     for i in range(num_users):
+#         username = f"user_{i}"
+#         password_hash = generate_password_hash(f"password_{i}")
+#         try:
+#             center.create_user(username, password_hash)
+#             print(f"User {username} created successfully.")
+#         except sqlcenter.DuplicateUsernameError:
+#             print(f"User {username} already exists. Skipping.")
 
 if __name__ == "__main__":
     create_mikko()

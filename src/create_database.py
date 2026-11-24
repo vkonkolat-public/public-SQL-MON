@@ -1,25 +1,16 @@
-# TODO: Muistio aivoille: COnsider merging with db.py
-import sqlite3
-import db
 import os.path
 
-# Tries to create the database based on schema.sql
-# TODO: add exception handling and shieet later
-def create_database():
-    con = sqlite3.connect("database.db")
-    con.execute("PRAGMA foreign_keys = ON")
-    with open("schema.sql", "r") as f:
-        con.executescript(f.read())
-    con.close()
+import db
+from sqlcenter import SQLCenter
 
-# Cheks if the database file exists. Returns True or false
-# TODO: Currently checks the same folder, increase robustness with development 
-def check_database_exists(location:str="database.db") -> bool:
+
+def create_database():
+    SQLCenter().create_schema()
+
+def check_database_exists(location: str = db.DATABASE_PATH) -> bool:
     return os.path.exists(location)
 
-# TODO: Doesn't at the moment check for right format, definitely add later
 def main():
-    #Check if the database already exists
     try:
         if check_database_exists():
             print("Database already exists.")

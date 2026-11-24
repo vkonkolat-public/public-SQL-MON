@@ -7,36 +7,37 @@
 </head>
 
 <body>
-  <main>
+  <main class="frontpage">
     <h1>Etusivu</h1>
-    <!-- Laita nämä myöhemmin siististi johonkin ruudukkotauluihin lukumäärän mukaan, 3 maksimi? -->
     <h2>Omat SQL-MONit</h2>
     {% if mons %}
-      {% for mon in mons %}
-        <div class="mon">
-          <h3>{{ mon["mon_name"] }}</h3>
-          <ul>
-            <li>
-              Vimma: {{ mon["vimma"] }}
-              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='vimma') }}" method="post" style="display: inline">
-                <button type="submit">+</button>
-              </form>
-            </li>
-            <li>
-              Sisu: {{ mon["sisu"] }}
-              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='sisu') }}" method="post" style="display: inline">
-                <button type="submit">+</button>
-              </form>
-            </li>
-            <li>
-              Kesto: {{ mon["kesto"] }}
-              <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='kesto') }}" method="post" style="display: inline">
-                <button type="submit">+</button>
-              </form>
-            </li>
-          </ul>
-        </div>
-      {% endfor %}
+      <div class="mon-list">
+        {% for mon in mons %}
+          <div class="mon">
+            <h3>{{ mon["mon_name"] }}</h3>
+            <ul>
+              <li>
+                Vimma: {{ mon["vimma"] }}
+                <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='vimma') }}" method="post" style="display: inline">
+                  <button type="submit">+</button>
+                </form>
+              </li>
+              <li>
+                Sisu: {{ mon["sisu"] }}
+                <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='sisu') }}" method="post" style="display: inline">
+                  <button type="submit">+</button>
+                </form>
+              </li>
+              <li>
+                Kesto: {{ mon["kesto"] }}
+                <form action="{{ url_for('increase_mon_stat', mon_id=mon['id'], stat='kesto') }}" method="post" style="display: inline">
+                  <button type="submit">+</button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        {% endfor %}
+      </div>
     {% else %}
       <p>Sinulla ei ole vielä SQL-MONeja.</p>
     {% endif %}
